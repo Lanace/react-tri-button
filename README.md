@@ -1,6 +1,6 @@
-# react-state-button
+# react-tri-button
 
-상태가 있는 버튼 제공
+상태가 있는 컨포넌트
 
 ## Components
 
