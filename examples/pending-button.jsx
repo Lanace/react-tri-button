@@ -1,10 +1,6 @@
 import React from 'react';
-
-import PendingButton from './components/PendingButton';
-import TriButton from './components/TriButton';
-import TriCheckbox from './components/TriCheckbox';
-
-import './App.css';
+import ReactDOM from 'react-dom';
+import './index.css';
 
 function App() {
 
@@ -143,4 +139,4 @@ function App() {
   );
 }
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('root'));
