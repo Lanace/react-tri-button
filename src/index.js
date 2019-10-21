@@ -1,5 +1,10 @@
+import PendingButton from './PendingButton';
+import TriButton from './TriButton';
+import TriCheckbox from './TriCheckbox';
 import "./styles.css";
 
-export * from './PendingButton';
-export * from './TriButton';
-export * from './TriCheckbox';
+export default {
+  PendingButton,
+  TriButton,
+  TriCheckbox
+}

@@ -4,9 +4,7 @@ class TirButton extends React.Component {
 
   render() {
     return (
-      <div>
-
-      </div>
+      <div>TirButton</div>
     )
   }
 }

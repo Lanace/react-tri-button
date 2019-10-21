@@ -5,7 +5,7 @@ class TirCheckBox extends React.Component {
   render() {
     return (
       <div>
-
+        TirCheckBox
       </div>
     )
   }

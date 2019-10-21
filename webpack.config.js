@@ -13,14 +13,14 @@ module.exports = {
     umdNamedDefine: true
   },
   resolve: {
-    extensions: ['.js', 'jsx', 'js']
+    extensions: ['.js', '.jsx']
   },
   mode: 'production',
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        loader: 'awesome-typescript-loader',
+        test: /\.(js|jsx)$/,
+        use: ['babel-loader'],
         exclude: /node_modules/
       },
       {
@@ -30,3 +30,4 @@ module.exports = {
     ]
   }
 };
+

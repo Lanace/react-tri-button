@@ -16,6 +16,14 @@ or
 $ yarn install react-tri-button
 ```
 
+### Scripts
+
+#### build
+
+```bash
+npm run build
+```
+
 ## Components
 
 - Pending Button
