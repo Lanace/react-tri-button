@@ -5,7 +5,11 @@
   "license": "MIT",
   "private": false,
   "keywords": [
-    "react button", "processing", "fetching", "triple state", "lanace"
+    "react button",
+    "processing",
+    "fetching",
+    "triple state",
+    "lanace"
   ],
   "homepage": "https://github.com/Lanace/react-tri-button",
   "author": {
@@ -18,20 +22,21 @@
     "type": "git",
     "url": "https://github.com/Lanace/react-tri-button.git"
   },
-  "dependencies": {
+  "files": [
+    "/lib"
+  ],
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-scripts": "3.2.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "css-loader": "^2.1.0",
+    "import": "0.0.6",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3"
   },
   "browserslist": {
     "production": [
