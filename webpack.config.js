@@ -1,7 +1,19 @@
-const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+
+console.log(process.argv);
+
+function findPara(param){
+  let result = '';
+  process.argv.forEach((argv)=>{
+      if(argv.indexOf('--' + param) === -1) return;
+      result = argv.split('=')[1];
+  });
+  return  result;
+}
+
+const customparam1 = findPara('customparam1');
 
 module.exports = {
   entry: {
@@ -15,9 +27,6 @@ module.exports = {
     umdNamedDefine: true
   },
   devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './dist'
-  },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -46,7 +55,7 @@ module.exports = {
     host: 'localhost',
     port: 3000,
     open: true,
+    contentBase: './dist',
     historyApiFallback: true
   }
 };
-
