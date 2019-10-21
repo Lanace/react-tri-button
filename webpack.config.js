@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -12,6 +14,16 @@ module.exports = {
     library: 'MyLib',
     umdNamedDefine: true
   },
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist'
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'Development'
+    })
+  ],
   resolve: {
     extensions: ['.js', '.jsx']
   },
@@ -28,6 +40,13 @@ module.exports = {
         loaders: ['style-loader', 'css-loader'],
       },
     ]
+  },
+
+  devServer: {
+    host: 'localhost',
+    port: 3000,
+    open: true,
+    historyApiFallback: true
   }
 };
 
