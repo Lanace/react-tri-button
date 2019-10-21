@@ -83,3 +83,9 @@ class App extends React.Component {
 }
 
 ```
+
+
+
+## License
+
+react-tri-button is [MIT licensed](./LICENSE).
