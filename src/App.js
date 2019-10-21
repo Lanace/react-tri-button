@@ -13,6 +13,8 @@ function App() {
       setTimeout(function() {
         reject(1);
       }, 3000);
+    }).then(res => {
+      console.log(`result is ${res}`)
     });
   }
 
@@ -23,14 +25,18 @@ function App() {
         console.log('promise1 - resolve');
         resolve(1);
       }, 3000);
+    }).then(res => {
+      console.log(`result1 is ${res}`)
     });
 
     const promise2 = new Promise((resolve, reject) => {
       console.log('promise2');
       setTimeout(function() {
         console.log('promise2 - resolve');
-        reject(2);
+        resolve(2);
       }, 5000);
+    }).then(res => {
+      console.log(`result2 is ${res}`)
     });
 
     const promise3 = new Promise((resolve, reject) => {
@@ -39,8 +45,9 @@ function App() {
         console.log('promise3 - resolve');
         resolve(3);
       }, 1000);
+    }).then(res => {
+      console.log(`result3 is ${res}`)
     });
-
 
     return [promise1, promise2, promise3];
   }
@@ -78,7 +85,7 @@ function App() {
         failText='Fail fetching'
         fetchMode='sequence'
         onStateChanged={onStateChanged}
-        onFetching={onFetchingList}
+        onFetching={onFetching}
         onError={onError}
         onSuccess={onSuccess}
         onFail={onFail}
@@ -108,6 +115,25 @@ function App() {
             <p>
               Multi fetching Pending Button
             </p>
+          </div>
+      </PendingButton>
+
+
+      <h2>inconsecutive Button</h2>
+      <PendingButton 
+        timeout={5000}
+        fetchingText='Please wait...'
+        successText='Success fetching'
+        failText='Fail fetching'
+        fetchMode='inconsecutive'
+        onStateChanged={onStateChanged}
+        onFetching={onFetchingList}
+        onError={onError}
+        onSuccess={onSuccess}
+        onFail={onFail}
+        onProcess={onProcess}>
+          <div>
+            <p>Inconsecutive Pending Button</p>
           </div>
       </PendingButton>
 

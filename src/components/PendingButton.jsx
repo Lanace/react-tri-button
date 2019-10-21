@@ -45,20 +45,25 @@ class PendingButton extends React.Component {
     let fetchingList = [];
 
     if (this.props.onFetching instanceof Function) {
-      fetchingList = [this.props.onFetching()];
+      fetchingList = this.props.onFetching();
     } else {
-      fetchingList = fetchingList.concat(this.props.onFetching.map(fetch => fetch()));
+      fetchingList = this.props.onFetching
     }
 
     let result;
     if (this.props.fetchMode === 'inconsecutive') {
       result = Promise.all(fetchingList)
     } else {
-      // result = sequence(fetchingList);
+      let processCount = 0;
       result = fetchingList.reduce((prev, next) => {
         console.log(prev, next);
         return prev.then(() => {
           console.log('inner', next);
+          processCount++;
+          if (this.props.onProcess) {
+            this.props.onProcess(processCount / fetchingList.length);
+          }
+
           return next;
         })
       }, Promise.resolve());
@@ -88,7 +93,9 @@ class PendingButton extends React.Component {
   }
 
   render() {
-    console.log('render()', this.props);
+    if (this.props.logging) {
+      console.log('render()');
+    }
 
     return (
       <button onClick={this.handleClicked}>
@@ -107,6 +114,7 @@ PendingButton.propTypes = {
   fetchMode: PropTypes.oneOf([
     'sequence', 'inconsecutive'
   ]),
+  logging: PropTypes.bool,
 
   onStateChanged: PropTypes.func,
   onFetching: PropTypes.oneOfType([
@@ -120,7 +128,8 @@ PendingButton.propTypes = {
 }
 
 PendingButton.defaultProps = {
-  fetchMode: 'sequence'
+  fetchMode: 'sequence',
+  logging: false
 }
 
 export default PendingButton;

@@ -33,6 +33,7 @@ If you fetching whne you clicked button, clicked button is going to unclickable 
 - successText
 - failText
 - fetchMode
+- logging
 
 | props | description | type | isRequired / default |
 |-------|-------|:------:|:------:|
@@ -41,6 +42,7 @@ If you fetching whne you clicked button, clicked button is going to unclickable 
 |   successText    | fetch가 성공했을때 표시되는 text |   string    |  false / ''   |
 |   failText    | fetch가 성공했을때 표시되는 text | string |  false / ''   |
 | fetchMode | fetch를 순차적으로 할지, 비동기로 할지 결정 | enum ('sequence', 'inconsecutive') | false / 'sequence' |
+| logging | logging 한다. | boolean | false / false |
 
 #### Event
 
