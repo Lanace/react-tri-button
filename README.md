@@ -1,10 +1,30 @@
 # react-tri-button
 
-상태가 있는 컨포넌트
+Component with triple state
+
+## Demo
+
+준비중...
+
+## Install
+
+```
+$ npm install react-tri-button --save
+
+or 
+
+$ yarn install react-tri-button
+```
 
 ## Components
 
+- Pending Button
+- [WIP] Tri Button
+- [WIP] Tri Checkbox
+
 ### Pending Button
+
+If you fetching whne you clicked button, clicked button is going to unclickable and come back finishing fetching.
 
 #### Props
 
@@ -12,6 +32,15 @@
 - fetchingText
 - successText
 - failText
+- fetchMode
+
+| props | description | type | isRequired / default |
+|-------|-------|:------:|:------:|
+|   timeout    |   fetching 과정중, timeout에서 지정한 시간이 지난 후에도 fetching이 되지 않은경우 fetching을 종료하고, 실패로 처리한다.    |   number (milisecond)    |    false / 0 |
+|   fetchingText    |   fetch 중에 있을때 표시되는 text    |   string    |   false / ''  |
+|   successText    | fetch가 성공했을때 표시되는 text |   string    |  false / ''   |
+|   failText    | fetch가 성공했을때 표시되는 text | string |  false / ''   |
+| fetchMode | fetch를 순차적으로 할지, 비동기로 할지 결정 | enum ('sequence', 'inconsecutive') | false / 'sequence' |
 
 #### Event
 
@@ -30,3 +59,25 @@
 
 
 ### Tri-Checkbox
+
+
+
+
+## Usage
+
+``` javascript
+import React from 'react'
+import {PendingButton} from 'react-tri-button'
+
+class App extends React.Component {
+
+  render () {
+    return (
+      <PendingButton>
+        Pending Button
+      </PendingButton>
+    )
+  }
+}
+
+```
