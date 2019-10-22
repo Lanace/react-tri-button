@@ -59,11 +59,8 @@ class PendingButton extends React.Component {
       result = Promise.all(fetchingList)
     } else {
       let processCount = 0;
-      console.log(fetchingList);
       result = fetchingList.reduce((prev, next) => {
-        console.log(prev, next);
         return prev.then(() => {
-          console.log('inner', next);
           processCount++;
           if (this.props.onProcess) {
             this.props.onProcess(processCount / fetchingList.length);
@@ -75,7 +72,6 @@ class PendingButton extends React.Component {
     }
 
     result.then(data => {
-      console.log('fetching success', data);
       this.setState({
         isPending: false,
         text: this.props.successText
@@ -85,7 +81,6 @@ class PendingButton extends React.Component {
         this.props.onSuccess(data);
       }
     }).catch(error => {
-      console.error('fetching fail', error);
       this.setState({
         isPending: false,
         text: this.props.failText
@@ -98,10 +93,6 @@ class PendingButton extends React.Component {
   }
 
   render() {
-    if (this.props.logging) {
-      console.log('render()');
-    }
-
     return (
       <button onClick={this.handleClicked}>
         {this.state.text}

@@ -1,7 +1,10 @@
 import React from 'react';
 import PendingButton from '../src/PendingButton';
-import FetchingItemEditor from './FetchingItemEditor';
-import FetchingItemList from './FetchingItemList';
+import TransferList from './TransferList';
+
+import {Box, Checkbox, Container, TextField, RadioGroup, FormControlLabel, Radio} from '@material-ui/core'
+
+import './pendingButtonExample.css';
 
 class PendingButtonExample extends React.Component {
 
@@ -17,20 +20,47 @@ class PendingButtonExample extends React.Component {
       fetchMode: 'sequence',
       logging: true,
 
+      totalFetchingItems: [
+        {
+          timeout: 2000,
+          data: 1,
+          isResolve: true
+        },
+        {
+          timeout: 6000,
+          data: 2,
+          isResolve: true
+        },
+        {
+          timeout: 3000,
+          data: 3,
+          isResolve: true
+        },
+        {
+          timeout: 5000,
+          data: 4,
+          isResolve: false
+        },
+        {
+          timeout: 7000,
+          data: 5,
+          isResolve: true
+        }
+      ],
       fetchingItems: []
     }
   }
 
   onFieldChanged = (e) => {
-    console.log(e.target.name);
+    if (e.target.name === 'logging') {
+      this.setState({
+        logging: !this.state.logging
+      });
+      return;
+    }
+
     this.setState({
       [e.target.name]: e.target.value
-    });
-  }
-
-  onCreatedFetchingItem = (fetchingItem) => {
-    this.setState({
-      fetchingItems: this.state.fetchingItems.concat(fetchingItem)
     });
   }
 
@@ -40,48 +70,16 @@ class PendingButtonExample extends React.Component {
     });
   }
 
-  onFetching = () => {
+  makePromise = (fetching) => {
     return new Promise((resolve, reject) => {
-      setTimeout(function () {
-        reject(1);
-      }, 3000);
-    }).then(res => {
-      console.log(`result is ${res}`)
+      setTimeout(() => {
+        fetching.isResolve ? resolve(fetching.data) : reject(fetching.data);
+      }, fetching.timeout);
     });
   }
 
   onFetchingList = () => {
-    const promise1 = new Promise((resolve, reject) => {
-      console.log('promise1');
-      setTimeout(function () {
-        console.log('promise1 - resolve');
-        resolve(1);
-      }, 3000);
-    }).then(res => {
-      console.log(`result1 is ${res}`)
-    });
-
-    const promise2 = new Promise((resolve, reject) => {
-      console.log('promise2');
-      setTimeout(function () {
-        console.log('promise2 - resolve');
-        resolve(2);
-      }, 5000);
-    }).then(res => {
-      console.log(`result2 is ${res}`)
-    });
-
-    const promise3 = new Promise((resolve, reject) => {
-      console.log('promise3');
-      setTimeout(function () {
-        console.log('promise3 - resolve');
-        resolve(3);
-      }, 1000);
-    }).then(res => {
-      console.log(`result3 is ${res}`)
-    });
-
-    return [promise1, promise2, promise3];
+    return this.state.fetchingItems.map(fetching => this.makePromise(fetching));
   }
 
   onStateChanged = (state) => {
@@ -106,67 +104,49 @@ class PendingButtonExample extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <Container>
         <h1>Pending-button example</h1>
 
-        <PendingButton
-          timeout={this.state.timeout}
-          fetchingText={this.state.fetchingText}
-          successText={this.state.successText}
-          failText={this.state.failText}
-          fetchMode={this.state.fetchMode}
+        <Box>
+          <PendingButton
+            timeout={this.state.timeout}
+            fetchingText={this.state.fetchingText}
+            successText={this.state.successText}
+            failText={this.state.failText}
+            fetchMode={this.state.fetchMode}
 
-          onFetching={this.onFetching}
-          onStateChanged={this.onStateChanged}
-          onError={this.onError}
-          onSuccess={this.onSuccess}
-          onFail={this.onFail}
-          onProcess={this.onProcess}>
-          {this.state.childrenHtml}
-        </PendingButton>
+            onFetching={this.onFetchingList}
+            onStateChanged={this.onStateChanged}
+            onError={this.onError}
+            onSuccess={this.onSuccess}
+            onFail={this.onFail}
+            onProcess={this.onProcess}>
+            {this.state.childrenHtml}
+          </PendingButton>
+        </Box>
 
+        <Box display="flex" flexDirection="colums" flexWrap="wrap">
+          <TextField id="timeout" className="input" label="Timeout" name="timeout" value={this.state.timeout} onChange={this.onFieldChanged} margin="normal"/>
+          <TextField id="childrenHtml" className="input" label="Children html" name="childrenHtml" value={this.state.childrenHtml} onChange={this.onFieldChanged} margin="normal"/>
+          <TextField id="fetchingText" className="input" label="Fetching Text" name="fetchingText" value={this.state.fetchingText} onChange={this.onFieldChanged} margin="normal"/>
+          <TextField id="successText" className="input" label="Success Text" name="successText" value={this.state.successText} onChange={this.onFieldChanged} margin="normal"/>
+          <TextField id="failText" className="input" label="Fail Text" name="failText" value={this.state.failText} onChange={this.onFieldChanged} margin="normal"/>
+
+          <RadioGroup aria-label="fetchMode" name="fetchMode" value={this.state.fetchMode} onChange={this.onFieldChanged}>
+            <FormControlLabel value="sequence" control={<Radio />} label="Sequence" />
+            <FormControlLabel value="inconsecutive" control={<Radio />} label="inconsecutive" />
+          </RadioGroup>
+
+          <FormControlLabel
+            control={<Checkbox name="logging" checked={this.state.logging} onChange={this.onFieldChanged} color="primary"/>}
+            label="Logging"
+          />
+        </Box>
         <section>
-          <div>
-            <label htmlFor="timeout">Timeout</label>
-            <input id="timeout" name="timeout" type="number" value={this.state.timeout} onChange={this.onFieldChanged} />
-          </div>
-
-          <div>
-            <label htmlFor="childrenHtml">Children html</label>
-            <input id="childrenHtml" name="childrenHtml" type="text" value={this.state.childrenHtml} onChange={this.onFieldChanged} />
-          </div>
-
-          <div>
-            <label htmlFor="fetchingText">Fetching Text</label>
-            <input id="fetchingText" name="fetchingText" type="text" value={this.state.fetchingText} onChange={this.onFieldChanged} />
-          </div>
-
-          <div>
-            <label htmlFor="successText">Success Text</label>
-            <input id="successText" name="successText" type="text" value={this.state.successText} onChange={this.onFieldChanged} />
-          </div>
-
-          <div>
-            <label htmlFor="failText">Fail Text</label>
-            <input id="failText" name="failText" type="text" value={this.state.failText} onChange={this.onFieldChanged} />
-          </div>
-
-          <div>
-            <label htmlFor="mode1">Fetch Mode</label>
-            <input id="mode1" name="sequence" type="radio" value="sequence" checked={this.state.fetchMode === 'sequence'} onChange={this.onFieldChanged} />sequence
-          <input id="mode1" name="inconsecutive" type="radio" value="inconsecutive" checked={this.state.fetchMode === 'inconsecutive'} onChange={this.onFieldChanged} />inconsecutive
-          </div>
-
-          <div>
-            <label htmlFor="logging">Logging</label>
-            <input id="logging" name="logging" type="checkbox" checked={this.state.logging} onChange={this.onFieldChanged} />
-          </div>
+          <h4>Fetching List</h4>
+          <TransferList left={this.state.totalFetchingItems} onSelectedItems={this.onSelectedItems}/>
         </section>
-        <section>
-          <FetchingItemList fetchingItems={this.state.fetchingItems} onSelectedItems={this.onSelectedItems}/>
-          <FetchingItemEditor onCreatedFetchingItem={this.onCreatedFetchingItem}/>
-        </section>
-      </div>
+      </Container>
     );
   }
 }

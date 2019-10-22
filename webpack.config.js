@@ -2,19 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
-console.log(process.argv);
-
-function findParam(param){
-  let result = '';
-  process.argv.forEach((argv)=>{
-      if(argv.indexOf('--' + param) === -1) return;
-      result = argv.split('=')[1];
-  });
-  return  result;
-}
-
-const customparam1 = findParam('customparam1');
-
 module.exports = {
   entry: {
     'index': './src/index.js',
