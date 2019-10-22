@@ -4,7 +4,7 @@ Component with triple state
 
 ## Demo
 
-준비중...
+preparing...
 
 ## Install
 
@@ -24,11 +24,39 @@ $ yarn install react-tri-button
 npm run build
 ```
 
+#### development
+
+if you develop this project, you can use it by webpack-dev-server.
+
+```bash
+npm run dev
+```
+
+## Usage
+
+``` javascript
+import React from 'react'
+import {PendingButton} from 'react-tri-button'
+
+class App extends React.Component {
+
+  render () {
+    return (
+      <PendingButton>
+        Pending Button
+      </PendingButton>
+    )
+  }
+}
+
+```
+
+
 ## Components
 
 - Pending Button
+- Tri Checkbox
 - [WIP] Tri Button
-- [WIP] Tri Checkbox
 
 ### Pending Button
 
@@ -65,32 +93,44 @@ If you fetching whne you clicked button, clicked button is going to unclickable 
 #### Children
 
 
+### Tri-Checkbox
+
+you can use three state checkbox using `TriCheckBox`.
+
+#### Props
+
+state: props로 상태를 나타내는 값을 지정할 수 있음
+disable: 
+checked: 
+
+checkedIcon
+value
+
+#### Events
+
+onChanged
+
+#### ETC...
+
+
+### Tri-Checkbox Group
+
+#### Props
+
+state: props로 상태를 나타내는 값을 지정할 수 있음
+disable: 
+checked: 
+
+checkedIcon
+value
+
+#### Events
+
+onChanged
+
 ### Tri-Button
 
 
-### Tri-Checkbox
-
-
-
-
-## Usage
-
-``` javascript
-import React from 'react'
-import {PendingButton} from 'react-tri-button'
-
-class App extends React.Component {
-
-  render () {
-    return (
-      <PendingButton>
-        Pending Button
-      </PendingButton>
-    )
-  }
-}
-
-```
 
 
 
