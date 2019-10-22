@@ -1,5 +1,7 @@
 import React from 'react';
 import PendingButton from '../src/PendingButton';
+import FetchingItemEditor from './FetchingItemEditor';
+import FetchingItemList from './FetchingItemList';
 
 class PendingButtonExample extends React.Component {
 
@@ -23,6 +25,18 @@ class PendingButtonExample extends React.Component {
     console.log(e.target.name);
     this.setState({
       [e.target.name]: e.target.value
+    });
+  }
+
+  onCreatedFetchingItem = (fetchingItem) => {
+    this.setState({
+      fetchingItems: this.state.fetchingItems.concat(fetchingItem)
+    });
+  }
+
+  onSelectedItems = (selectedItems) => {
+    this.setState({
+      fetchingItems: selectedItems
     });
   }
 
@@ -147,6 +161,10 @@ class PendingButtonExample extends React.Component {
             <label htmlFor="logging">Logging</label>
             <input id="logging" name="logging" type="checkbox" checked={this.state.logging} onChange={this.onFieldChanged} />
           </div>
+        </section>
+        <section>
+          <FetchingItemList fetchingItems={this.state.fetchingItems} onSelectedItems={this.onSelectedItems}/>
+          <FetchingItemEditor onCreatedFetchingItem={this.onCreatedFetchingItem}/>
         </section>
       </div>
     );
