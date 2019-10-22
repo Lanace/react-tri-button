@@ -1,12 +1,34 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PendingButton from '../src/PendingButton';
 
 class PendingButtonExample extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      timeout: 5000,
+      childrenHtml: 'Pending Button',
+      fetchingText: '',
+      successText: '',
+      failText: '',
+      fetchMode: 'sequence',
+      logging: true,
+
+      fetchingItems: []
+    }
+  }
+
+  onFieldChanged = (e) => {
+    console.log(e.target.name);
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
   onFetching = () => {
     return new Promise((resolve, reject) => {
-      setTimeout(function() {
+      setTimeout(function () {
         reject(1);
       }, 3000);
     }).then(res => {
@@ -17,7 +39,7 @@ class PendingButtonExample extends React.Component {
   onFetchingList = () => {
     const promise1 = new Promise((resolve, reject) => {
       console.log('promise1');
-      setTimeout(function() {
+      setTimeout(function () {
         console.log('promise1 - resolve');
         resolve(1);
       }, 3000);
@@ -27,7 +49,7 @@ class PendingButtonExample extends React.Component {
 
     const promise2 = new Promise((resolve, reject) => {
       console.log('promise2');
-      setTimeout(function() {
+      setTimeout(function () {
         console.log('promise2 - resolve');
         resolve(2);
       }, 5000);
@@ -37,7 +59,7 @@ class PendingButtonExample extends React.Component {
 
     const promise3 = new Promise((resolve, reject) => {
       console.log('promise3');
-      setTimeout(function() {
+      setTimeout(function () {
         console.log('promise3 - resolve');
         resolve(3);
       }, 1000);
@@ -68,74 +90,67 @@ class PendingButtonExample extends React.Component {
     console.log('onProcess', process);
   }
 
-  render () {
+  render() {
     return (
       <div className="App">
-        <h1>react-state-button example!</h1>
-  
-        <h2>Basic </h2>
+        <h1>Pending-button example</h1>
 
-        <PendingButton 
-          timeout={5000}
-          fetchingText='Please wait...'
-          successText='Success fetching'
-          failText='Fail fetching'
-          fetchMode='sequence'
-          onStateChanged={onStateChanged}
-          onFetching={onFetching}
-          onError={onError}
-          onSuccess={onSuccess}
-          onFail={onFail}
-          onProcess={onProcess}>
-            <div>
-              <p>
-                Pending Button Test
-              </p>
-            </div>
+        <PendingButton
+          timeout={this.state.timeout}
+          fetchingText={this.state.fetchingText}
+          successText={this.state.successText}
+          failText={this.state.failText}
+          fetchMode={this.state.fetchMode}
+
+          onFetching={this.onFetching}
+          onStateChanged={this.onStateChanged}
+          onError={this.onError}
+          onSuccess={this.onSuccess}
+          onFail={this.onFail}
+          onProcess={this.onProcess}>
+          {this.state.childrenHtml}
         </PendingButton>
-  
-        <h2>Multi Fetching</h2>
-  
-        <PendingButton 
-          timeout={5000}
-          fetchingText='Please wait...'
-          successText='Success fetching'
-          failText='Fail fetching'
-          fetchMode='sequence'
-          onStateChanged={onStateChanged}
-          onFetching={onFetchingList}
-          onError={onError}
-          onSuccess={onSuccess}
-          onFail={onFail}
-          onProcess={onProcess}>
-            <div>
-              <p>
-                Multi fetching Pending Button
-              </p>
-            </div>
-        </PendingButton>
-  
-  
-        <h2>inconsecutive Button</h2>
-        <PendingButton 
-          timeout={5000}
-          fetchingText='Please wait...'
-          successText='Success fetching'
-          failText='Fail fetching'
-          fetchMode='inconsecutive'
-          onStateChanged={onStateChanged}
-          onFetching={onFetchingList}
-          onError={onError}
-          onSuccess={onSuccess}
-          onFail={onFail}
-          onProcess={onProcess}>
-            <div>
-              <p>Inconsecutive Pending Button</p>
-            </div>
-        </PendingButton>
+
+        <section>
+          <div>
+            <label htmlFor="timeout">Timeout</label>
+            <input id="timeout" name="timeout" type="number" value={this.state.timeout} onChange={this.onFieldChanged} />
+          </div>
+
+          <div>
+            <label htmlFor="childrenHtml">Children html</label>
+            <input id="childrenHtml" name="childrenHtml" type="text" value={this.state.childrenHtml} onChange={this.onFieldChanged} />
+          </div>
+
+          <div>
+            <label htmlFor="fetchingText">Fetching Text</label>
+            <input id="fetchingText" name="fetchingText" type="text" value={this.state.fetchingText} onChange={this.onFieldChanged} />
+          </div>
+
+          <div>
+            <label htmlFor="successText">Success Text</label>
+            <input id="successText" name="successText" type="text" value={this.state.successText} onChange={this.onFieldChanged} />
+          </div>
+
+          <div>
+            <label htmlFor="failText">Fail Text</label>
+            <input id="failText" name="failText" type="text" value={this.state.failText} onChange={this.onFieldChanged} />
+          </div>
+
+          <div>
+            <label htmlFor="mode1">Fetch Mode</label>
+            <input id="mode1" name="sequence" type="radio" value="sequence" checked={this.state.fetchMode === 'sequence'} onChange={this.onFieldChanged} />sequence
+          <input id="mode1" name="inconsecutive" type="radio" value="inconsecutive" checked={this.state.fetchMode === 'inconsecutive'} onChange={this.onFieldChanged} />inconsecutive
+          </div>
+
+          <div>
+            <label htmlFor="logging">Logging</label>
+            <input id="logging" name="logging" type="checkbox" checked={this.state.logging} onChange={this.onFieldChanged} />
+          </div>
+        </section>
       </div>
     );
   }
 }
 
-ReactDOM.render(<PendingButtonExample />, document.getElementById('root'));
+export default PendingButtonExample;

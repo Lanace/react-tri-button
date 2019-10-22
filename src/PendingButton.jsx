@@ -50,11 +50,16 @@ class PendingButton extends React.Component {
       fetchingList = this.props.onFetching
     }
 
+    if (fetchingList instanceof Array === false) {
+      fetchingList = [fetchingList];
+    }
+
     let result;
     if (this.props.fetchMode === 'inconsecutive') {
       result = Promise.all(fetchingList)
     } else {
       let processCount = 0;
+      console.log(fetchingList);
       result = fetchingList.reduce((prev, next) => {
         console.log(prev, next);
         return prev.then(() => {

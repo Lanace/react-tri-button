@@ -15,29 +15,27 @@ function findParam(param){
 
 const customparam1 = findParam('customparam1');
 
+console.log(path.resolve(__dirname, 'dist'));
+
 module.exports = {
   entry: {
-    'index': './src/index.js',
-    'pendingbutton': './examples/PendingButtonExample.jsx'
+    'index': './examples/index.js'
   },
   output: {
-    path: path.resolve(__dirname, 'lib'),
-    filename: '[name].js',
-    libraryTarget: 'umd',
-    library: 'MyLib',
-    umdNamedDefine: true
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
   },
   devtool: 'inline-source-map',
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Development'
+      template: 'index.html'
     })
   ],
   resolve: {
     extensions: ['.js', '.jsx']
   },
-  mode: 'production',
+  mode: 'development',
   module: {
     rules: [
       {
@@ -56,7 +54,7 @@ module.exports = {
     host: 'localhost',
     port: 3000,
     open: true,
-    contentBase: './examples',
+    contentBase: './dist',
     historyApiFallback: true
   }
 };
