@@ -1,7 +1,15 @@
 import React from 'react';
 
-class TirCheckBox extends React.Component {
+class TriCheckBox extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      
+    }
+  }
+  
   render() {
     return (
       <div>
@@ -11,4 +19,4 @@ class TirCheckBox extends React.Component {
   }
 }
 
-export default TirCheckBox;
+export default TriCheckBox;
