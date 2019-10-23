@@ -25,13 +25,23 @@ class PendingButton extends React.Component {
 
     if (this.state.isPending) {
       console.log('clicked already');
-    } else {
-      this.setState({
-        isPending: true,
-        text: this.props.fetchingText
-      });
+      return;
+    }
 
+    this.setState({
+      isPending: true,
+      text: this.props.fetchingText
+    });
+
+    try {
       this.fetchProcess();
+    } catch (e) {
+      console.error(e);
+      
+      if (this.props.onError) {
+        this.props.onError(e);
+        this.onFinish(Promise.reject(e));
+      }
     }
   }
 
@@ -54,24 +64,51 @@ class PendingButton extends React.Component {
       fetchingList = [fetchingList];
     }
 
+    // fetchingList.push(Promise.resolve('finish'));
+
     let result;
     if (this.props.fetchMode === 'inconsecutive') {
-      result = Promise.all(fetchingList)
+      result = fetchingList.map(fetching => {
+        return fetching.then(data => {
+          console.log(`${data} is success fetched`);
+          return Promise.resolve(data);
+        }).catch(error => {
+          console.log(`${error} is fail fetched`);
+          return Promise.reject(error);
+        });
+      })
     } else {
       let processCount = 0;
-      result = fetchingList.reduce((prev, next) => {
-        return prev.then(() => {
+      result = fetchingList.reduce((prev, next, index, array) => {
+        console.log(prev, next, index, array);
+        const resultPromise = prev.then(data => {
+          console.log(`${data} is resolved`);
           processCount++;
           if (this.props.onProcess) {
             this.props.onProcess(processCount / fetchingList.length);
           }
-
+          
+          console.log(prev, next, index, array);
           return next;
-        })
-      }, Promise.resolve());
+        }).catch(error => {
+          console.log(`${error} is rejected`);
+          processCount++;
+          if (this.props.onProcess) {
+            this.props.onProcess(processCount / fetchingList.length);
+          }
+          return array[index + 1];
+        });
+
+        return resultPromise;
+      });
     }
 
-    result.then(data => {
+    this.onFinish(fetchingList);
+  }
+
+  onFinish = (fetchingList) => {
+    Promise.all(fetchingList).then(data => {
+      console.log('finish - success', data);
       this.setState({
         isPending: false,
         text: this.props.successText
@@ -81,6 +118,7 @@ class PendingButton extends React.Component {
         this.props.onSuccess(data);
       }
     }).catch(error => {
+      console.log('finish - fail', error);
       this.setState({
         isPending: false,
         text: this.props.failText
