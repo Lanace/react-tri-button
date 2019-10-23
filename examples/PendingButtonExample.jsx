@@ -2,7 +2,7 @@ import React from 'react';
 import PendingButton from '../src/PendingButton';
 import TransferList from './TransferList';
 
-import {Box, Checkbox, Container, TextField, RadioGroup, FormControlLabel, Radio} from '@material-ui/core'
+import {Box, Checkbox, Container, LinearProgress, TextField, RadioGroup, FormControlLabel, Radio} from '@material-ui/core'
 
 import './pendingButtonExample.css';
 
@@ -19,6 +19,7 @@ class PendingButtonExample extends React.Component {
       failText: '',
       fetchMode: 'sequence',
       logging: true,
+      process: 0,
 
       totalFetchingItems: [
         {
@@ -100,6 +101,9 @@ class PendingButtonExample extends React.Component {
 
   onProcess = (process) => {
     console.log('onProcess', process);
+    this.setState({
+      process: process * 100
+    });
   }
 
   render() {
@@ -123,6 +127,8 @@ class PendingButtonExample extends React.Component {
             onProcess={this.onProcess}>
             {this.state.childrenHtml}
           </PendingButton>
+
+          <LinearProgress variant="determinate" value={this.state.process} />
         </Box>
 
         <Box display="flex" flexDirection="colums" flexWrap="wrap">
