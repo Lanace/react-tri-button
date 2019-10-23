@@ -1,5 +1,7 @@
 # react-tri-button
 
+[![npm version](https://badge.fury.io/js/react-tri-button.svg)](https://badge.fury.io/js/react-tri-button)
+
 Component with triple state
 
 ## Demo
@@ -83,7 +85,7 @@ class App extends React.Component {
 
   render () {
     return (
-      <PendingButton>
+      <PendingButton onFetching={this.onFetchingList} onError={this.onError} onSuccess={this.onSuccess}>
         Pending Button
       </PendingButton>
     )
