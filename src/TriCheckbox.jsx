@@ -1,31 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {isMuiElement} from './utiles';
+
 class TriCheckBox extends React.Component {
 
   constructor(props) {
     super(props);
 
+    const childrenNodes = [];
+    React.Children.forEach(props.children, child => {
+      if (isMuiElement(child, ['TriCheckBox'])) {
+        childrenNodes.push(child.props);
+      }
+    });
+
     this.state = {
-      value: props.indeterminate ? 3 : props.checked ? 1 : 0,
-      checkedIcon: props.checkedIcon
+      value: props.indeterminate ? 2 : props.checked ? 1 : 0,
+      checkedIcon: props.checkedIcon,
+
+      childrenNodes
     }
   }
 
   onChangeCheckBox = () => {
     this.setState((prevState) => {
-      return {value: (prevState.value + 1) % 3};
-    }, (state) => {
+      const value = (prevState.value + 1) % 3;
+      const childrenNodes = prevState.childrenNodes.map(props => {
+        const temp = Object.assign({}, props);
+        temp.checked = value === 1;
+        temp.indeterminate = value === 2;
+        return temp
+      });
+
+      return {value, childrenNodes};
+    }, () => {
       this.props.onChange(this.state.value);
     });
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (prevProps) {
     this.refs.checkbox.indeterminate = this.state.value === 2;
+
+    if (prevProps.checked !== this.props.checked || prevProps.indeterminate !== this.props.indeterminate) {
+      this.setState({
+        value: this.props.indeterminate ? 2 : this.props.checked ? 1 : 0
+      }, () => {
+        this.props.onChange(this.state.value);
+      });
+    }
   }
 
   render() {
-
     let text = '';
 
     switch(this.state.value) {
@@ -40,11 +66,26 @@ class TriCheckBox extends React.Component {
         break;
     }
 
+    let childrenNode = (
+      <ul>
+        {
+          this.state.childrenNodes.map(
+            (props, index) => <li key={index}>
+              <TriCheckBox {...props} />
+            </li>
+          )
+        }
+      </ul>
+    );
+
     return (
-      <label>
-        <input type="checkbox" ref="checkbox" onChange={this.onChangeCheckBox} checked={this.state.value === 1}></input>
-        <span>{text}</span>
-      </label>
+      <div>
+        <label>
+          <input type="checkbox" ref="checkbox" onChange={this.onChangeCheckBox} checked={this.state.value === 1}></input>
+          <span>{text}</span>
+        </label>
+        {childrenNode}
+      </div>
     )
   }
 }
@@ -56,6 +97,7 @@ TriCheckBox.propTypes = {
   uncheckingText: PropTypes.string,
   intermediatingText: PropTypes.string,
   checkedIcon: PropTypes.string,
+  children: PropTypes.node,
 
   onChange: PropTypes.func
 }
