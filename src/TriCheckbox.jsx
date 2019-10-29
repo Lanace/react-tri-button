@@ -9,9 +9,14 @@ class TriCheckBox extends React.Component {
     super(props);
 
     const childrenNodes = [];
-    React.Children.forEach(props.children, child => {
+    React.Children.forEach(props.children, (child, index) => {
       if (isMuiElement(child, ['TriCheckBox'])) {
-        childrenNodes.push(child.props);
+        const childProps = Object.assign({}, child.props);
+        childProps.onChange = (value) => {
+          this.onChildChangeCheckBox(index, value);
+          return props.onChange(value);
+        }
+        childrenNodes.push(childProps);
       }
     });
 
@@ -36,6 +41,27 @@ class TriCheckBox extends React.Component {
       return {value, childrenNodes};
     }, () => {
       this.props.onChange(this.state.value);
+    });
+  }
+
+  onChildChangeCheckBox = (index, value) => {
+    this.setState({
+      childrenNodes: this.state.childrenNodes.map((child, i) => {
+        if (i === index) {
+          child.checked = value === 1;
+          child.indeterminate = value === 2;
+        }
+        return child;
+      })
+    }, () => {
+      const checkedCount = this.state.childrenNodes.filter(child => child.checked).length;
+      if (checkedCount === 0) {
+        this.setState({value: 0});
+      } else if (checkedCount === this.state.childrenNodes.length) {
+        this.setState({value: 1});
+      } else {
+        this.setState({value: 2});
+      }
     });
   }
 
