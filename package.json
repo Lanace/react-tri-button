@@ -27,7 +27,9 @@
   ],
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server --open --config webpack.dev.config.js"
+    "dev": "webpack-dev-server --open --config webpack.dev.config.js",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "presets": [
     "@babel/preset-env",
@@ -38,6 +40,10 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
+    "@storybook/addon-actions": "^5.2.5",
+    "@storybook/addon-links": "^5.2.5",
+    "@storybook/addons": "^5.2.5",
+    "@storybook/react": "^5.2.5",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^2.1.0",
