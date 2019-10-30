@@ -78,6 +78,7 @@ If you fetching whne you clicked button, clicked button is going to unclickable 
 - checkingText
 - uncheckingText
 - intermediatingText
+- propagation
 - (WIP) checkedIcon
 
 | props | description | type | isRequired / default |
@@ -87,6 +88,7 @@ If you fetching whne you clicked button, clicked button is going to unclickable 
 |checkingText||   string    |''|
 |uncheckingText|| string |''|
 | intermediatingText|| enum ('sequence', 'inconsecutive') | false / 'sequence' |
+|propagation|상위나 하위의 체크박으로 인해 자신이 전파를 받는지 여부|boolean|false / true|
 | checkedIcon || boolean | false / false |
 
 #### Event

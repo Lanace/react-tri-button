@@ -13,7 +13,10 @@ class TriCheckBox extends React.Component {
       if (isMuiElement(child, ['TriCheckBox'])) {
         const childProps = Object.assign({}, child.props);
         childProps.onChange = (value) => {
-          this.onChildChangeCheckBox(index, value);
+          if (this.props.propagation) {
+            this.onChildChangeCheckBox(index, value);
+          }
+
           return props.onChange(value);
         }
         childrenNodes.push(childProps);
@@ -122,6 +125,7 @@ TriCheckBox.propTypes = {
   checkingText: PropTypes.string,
   uncheckingText: PropTypes.string,
   intermediatingText: PropTypes.string,
+  propagation: PropTypes.bool,
   checkedIcon: PropTypes.string,
   children: PropTypes.node,
 
@@ -134,6 +138,7 @@ TriCheckBox.defaultProps = {
   checkingText: '',
   uncheckingText: '',
   intermediatingText: '',
+  propagation: true,
   checkedIcon: '',
 
   onChange: () => {}
