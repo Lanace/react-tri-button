@@ -64,15 +64,36 @@ If you fetching whne you clicked button, clicked button is going to unclickable 
 - onProcess
 
 
-#### Children
-
-
 ### Tri-Button
 
 
 ### Tri-Checkbox
 
+`Tri-Checkbox` has 3-state. `unchecked`, `checked` and `intermediate`.
 
+#### Props
+
+- checked
+- indeterminate
+- checkingText
+- uncheckingText
+- intermediatingText
+- propagation
+- (WIP) checkedIcon
+
+| props | description | type | isRequired / default |
+|-------|-------|:------:|:------:|
+|checked|체크박스 체크여부|boolean|false / false|
+|indeterminate|제 3의 상태|boolean|''|
+|checkingText||   string    |''|
+|uncheckingText|| string |''|
+| intermediatingText|| enum ('sequence', 'inconsecutive') | false / 'sequence' |
+|propagation|상위나 하위의 체크박으로 인해 자신이 전파를 받는지 여부|boolean|false / true|
+| checkedIcon || boolean | false / false |
+
+#### Event
+
+- onChange
 
 
 ## Usage
