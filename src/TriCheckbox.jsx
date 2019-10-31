@@ -37,7 +37,7 @@ class TriCheckBox extends React.Component {
       const childrenNodes = prevState.childrenNodes.map(props => {
         const temp = Object.assign({}, props);
         temp.checked = value === 1;
-        temp.indeterminate = value === 2;
+        temp.indeterminate = false;
         return temp
       });
 
@@ -75,7 +75,7 @@ class TriCheckBox extends React.Component {
       this.setState({
         value: this.props.indeterminate ? 2 : this.props.checked ? 1 : 0
       }, () => {
-        this.props.onChange(this.state.value);
+        // this.props.onChange(this.state.value);
       });
     }
   }
