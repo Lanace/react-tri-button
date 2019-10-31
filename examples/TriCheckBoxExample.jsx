@@ -38,7 +38,15 @@ class TriCheckBoxExample extends React.Component {
               checkingText="Checked2"
               uncheckingText=" Non-Checked2"
               intermediatingText="Intermediate2"
-              onChange={this.onChange2} />
+              onChange={this.onChange2} >
+
+              <TriCheckBox
+                checkingText="Checked3"
+                uncheckingText=" Non-Checked3"
+                intermediatingText="Intermediate3"
+                onChange={this.onChange2} />
+
+            </TriCheckBox>
         </TriCheckBox>
       </div>
     )
