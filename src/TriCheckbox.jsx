@@ -12,12 +12,15 @@ class TriCheckBox extends React.Component {
     React.Children.forEach(props.children, (child, index) => {
       if (isMuiElement(child, ['TriCheckBox'])) {
         const childProps = Object.assign({}, child.props);
+        childProps.onMonkyChange = childProps.onChange;
         childProps.onChange = (value) => {
           if (this.props.propagation) {
             this.onChildChangeCheckBox(index, value);
           }
 
-          return props.onChange(value);
+          if (childProps.onMonkyChange) {
+            childProps.onMonkyChange(value);
+          }
         }
         childrenNodes.push(childProps);
       }
@@ -37,7 +40,7 @@ class TriCheckBox extends React.Component {
       const childrenNodes = prevState.childrenNodes.map(props => {
         const temp = Object.assign({}, props);
         temp.checked = value === 1;
-        temp.indeterminate = value === 2;
+        temp.indeterminate = false;
         return temp
       });
 
@@ -59,13 +62,25 @@ class TriCheckBox extends React.Component {
     }, () => {
       const checkedCount = this.state.childrenNodes.filter(child => child.checked).length;
       if (checkedCount === 0) {
-        this.setState({value: 0});
+        this.onValueChange(0);
       } else if (checkedCount === this.state.childrenNodes.length) {
-        this.setState({value: 1});
+        this.onValueChange(1);
       } else {
-        this.setState({value: 2});
+        this.onValueChange(2);
       }
     });
+  }
+
+  onValueChange = (value) => {
+    if (value === this.state.value) {
+      return;
+    }
+
+    this.setState({value}, () =>{
+      if (this.props.onChange) {
+        this.props.onChange(value);
+      }
+    })
   }
 
   componentDidUpdate (prevProps) {
@@ -75,7 +90,7 @@ class TriCheckBox extends React.Component {
       this.setState({
         value: this.props.indeterminate ? 2 : this.props.checked ? 1 : 0
       }, () => {
-        this.props.onChange(this.state.value);
+        // this.props.onChange(this.state.value);
       });
     }
   }
