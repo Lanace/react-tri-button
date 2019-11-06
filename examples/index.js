@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PendingButtonExample from './PendingButtonExample';
 import TriCheckBoxExample from './TriCheckBoxExample';
+import ValidationFormExample from './ValidationFormExample';
 
 ReactDOM.render(
   <div>
@@ -10,7 +11,10 @@ ReactDOM.render(
     </section>
     
     <section>
-      <TriCheckBoxExample />
+      {/* <TriCheckBoxExample /> */}
+    </section>
+    <section>
+      <ValidationFormExample />
     </section>
   </div>, 
   document.getElementById('root')
