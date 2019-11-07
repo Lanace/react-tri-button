@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {isMuiElement} from './utiles';
+import isMuiElement from './utiles';
 
 class TriCheckBox extends React.Component {
-
   constructor(props) {
     super(props);
 
     const childrenNodes = [];
     React.Children.forEach(props.children, (child, index) => {
       if (isMuiElement(child, ['TriCheckBox'])) {
-        const childProps = Object.assign({}, child.props);
+        const childProps = { ...child.props };
         childProps.onMonkyChange = childProps.onChange;
         childProps.onChange = (value) => {
           if (this.props.propagation) {
@@ -21,30 +20,32 @@ class TriCheckBox extends React.Component {
           if (childProps.onMonkyChange) {
             childProps.onMonkyChange(value);
           }
-        }
+        };
         childrenNodes.push(childProps);
       }
     });
 
-    this.state = {
-      value: props.indeterminate ? 2 : props.checked ? 1 : 0,
-      checkedIcon: props.checkedIcon,
-
-      childrenNodes
+    let value = 0;
+    if (props.indeterminate) {
+      value = 2;
+    } else if (props.checked) {
+      value = 1;
     }
+
+    this.state = { value, childrenNodes };
   }
 
   onChangeCheckBox = () => {
     this.setState((prevState) => {
       const value = (prevState.value + 1) % 3;
-      const childrenNodes = prevState.childrenNodes.map(props => {
-        const temp = Object.assign({}, props);
+      const childrenNodes = prevState.childrenNodes.map((props) => {
+        const temp = { ...props };
         temp.checked = value === 1;
         temp.indeterminate = false;
-        return temp
+        return temp;
       });
 
-      return {value, childrenNodes};
+      return { value, childrenNodes };
     }, () => {
       this.props.onChange(this.state.value);
     });
@@ -53,14 +54,15 @@ class TriCheckBox extends React.Component {
   onChildChangeCheckBox = (index, value) => {
     this.setState({
       childrenNodes: this.state.childrenNodes.map((child, i) => {
+        const additionalChild = { ...child };
         if (i === index) {
-          child.checked = value === 1;
-          child.indeterminate = value === 2;
+          additionalChild.checked = value === 1;
+          additionalChild.indeterminate = value === 2;
         }
-        return child;
+        return additionalChild;
       })
     }, () => {
-      const checkedCount = this.state.childrenNodes.filter(child => child.checked).length;
+      const checkedCount = this.state.childrenNodes.filter((child) => child.checked).length;
       if (checkedCount === 0) {
         this.onValueChange(0);
       } else if (checkedCount === this.state.childrenNodes.length) {
@@ -76,19 +78,31 @@ class TriCheckBox extends React.Component {
       return;
     }
 
-    this.setState({value}, () =>{
+    this.setState({ value }, () => {
       if (this.props.onChange) {
         this.props.onChange(value);
       }
-    })
+    });
   }
 
-  componentDidUpdate (prevProps) {
+  getInitValue = (indeterminate, checked) => {
+    let result = 0;
+    if (indeterminate) {
+      result = 2;
+    } else if (checked) {
+      result = 1;
+    }
+
+    return result;
+  }
+
+  componentDidUpdate(prevProps) {
     this.refs.checkbox.indeterminate = this.state.value === 2;
 
-    if (prevProps.checked !== this.props.checked || prevProps.indeterminate !== this.props.indeterminate) {
+    if (prevProps.checked !== this.props.checked
+      || prevProps.indeterminate !== this.props.indeterminate) {
       this.setState({
-        value: this.props.indeterminate ? 2 : this.props.checked ? 1 : 0
+        value: this.getInitValue(this.props.indeterminate, this.props.checked)
       }, () => {
         // this.props.onChange(this.state.value);
       });
@@ -98,19 +112,19 @@ class TriCheckBox extends React.Component {
   render() {
     let text = '';
 
-    switch(this.state.value) {
-      case 0: 
-        text = this.props.uncheckingText
+    switch (this.state.value) {
+      case 0:
+        text = this.props.uncheckingText;
         break;
-      case 1: 
-        text = this.props.checkingText
+      case 1:
+        text = this.props.checkingText;
         break;
-      default: 
-        text = this.props.intermediatingText
+      default:
+        text = this.props.intermediatingText;
         break;
     }
 
-    let childrenNode = (
+    const childrenNode = (
       <ul>
         {
           this.state.childrenNodes.map(
@@ -130,7 +144,7 @@ class TriCheckBox extends React.Component {
         </label>
         {childrenNode}
       </div>
-    )
+    );
   }
 }
 
@@ -141,11 +155,10 @@ TriCheckBox.propTypes = {
   uncheckingText: PropTypes.string,
   intermediatingText: PropTypes.string,
   propagation: PropTypes.bool,
-  checkedIcon: PropTypes.string,
   children: PropTypes.node,
 
   onChange: PropTypes.func
-}
+};
 
 TriCheckBox.defaultProps = {
   checked: false,
@@ -154,9 +167,8 @@ TriCheckBox.defaultProps = {
   uncheckingText: '',
   intermediatingText: '',
   propagation: true,
-  checkedIcon: '',
 
   onChange: () => {}
-}
+};
 
 export default TriCheckBox;
