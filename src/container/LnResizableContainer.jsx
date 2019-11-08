@@ -13,13 +13,13 @@ class LnResizableContainer extends React.Component {
   }
 
   componentDidMount () {
-    if (this.props.width) {
+    if (!this.props.width) {
       this.setState({
         width: this.resizableRef.clientWidth
       });
     }
 
-    if (this.props.height) {
+    if (!this.props.height) {
       this.setState({
         height: this.resizableRef.clientHeight
       });
@@ -50,8 +50,12 @@ class LnResizableContainer extends React.Component {
   }
 
   onResize  = (width, height) => {
-    if (this.props.onResize && width > 0 && height > 0) {
-      this.props.onResize(width, height);
+    if (width > 0 && height > 0) {
+      if (this.props.onResize) {
+        this.props.onResize(width, height);
+      } else {
+        this.setState({ width, height });
+      }
     }
   }
 
@@ -72,10 +76,17 @@ class LnResizableContainer extends React.Component {
 
   getHandleStyle = () => {
     const style = {
-      position: 'absolute',
+      position: 'relative',
       top: this.state.height,
       left: this.state.width
     };
+
+    if (this.contentRef) {
+      style.top -= this.handleRef.clientHeight;
+      style.left -= this.handleRef.clientWidth;
+
+      console.log(this.state.height, this.contentRef.clientHeight);
+    }
 
     return style;
   }
@@ -89,13 +100,16 @@ class LnResizableContainer extends React.Component {
 
     const handle = React.cloneElement(this.props.handle, {
       ...dragProps,
-      style: this.getHandleStyle()
+      style: this.getHandleStyle(),
+      ref: (handleRef) => {this.handleRef = handleRef}
     });
 
     return (
       <div ref={(resizableRef) => this.resizableRef = resizableRef} style={this.getStyle()}>
-        {this.props.children}
         {handle}
+        <div ref={(contentRef) => this.contentRef = contentRef}>
+          {this.props.children}
+        </div>
       </div>
     );
   }
