@@ -7,7 +7,7 @@ class FormValidationOptions {
     required: false,
     rules: []
   }
-  
+
   options = {}
 
   constructor(options) {
@@ -19,7 +19,7 @@ class FormValidationOptions {
   }
 
   validate = (ref) => {
-    const value = ref.current.value;
+    const { value } = ref.current;
     let validation = true;
     const errors = [];
 
@@ -47,9 +47,7 @@ class FormValidationOptions {
       });
     }
 
-    const ruleResults = this.options.rules.map(rule => {
-      return rule(value)
-    }).filter(result => !result);
+    const ruleResults = this.options.rules.map((rule) => rule(value)).filter((result) => !result);
 
     if (ruleResults.length > 0) {
       validation = false;
@@ -63,7 +61,7 @@ class FormValidationOptions {
       name: this.options.name,
       validation,
       errors
-    }
+    };
   }
 }
 

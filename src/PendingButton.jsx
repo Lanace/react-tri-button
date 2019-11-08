@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class PendingButton extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
       isPending: false,
       text: ''
-    }
+    };
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -21,10 +20,10 @@ class PendingButton extends React.Component {
   }
 
   handleClicked = () => {
-    console.log('clicked!');
-
     if (this.state.isPending) {
-      console.log('clicked already');
+      if (this.props.onAlreadyClciked) {
+        this.props.onAlreadyClciked();
+      }
       return;
     }
 
@@ -37,7 +36,7 @@ class PendingButton extends React.Component {
       this.fetchProcess();
     } catch (e) {
       console.error(e);
-      
+
       if (this.props.onError) {
         this.props.onError(e);
         this.onFinish(Promise.reject(e));
@@ -57,42 +56,30 @@ class PendingButton extends React.Component {
     if (this.props.onFetching instanceof Function) {
       fetchingList = this.props.onFetching();
     } else {
-      fetchingList = this.props.onFetching
+      fetchingList = this.props.onFetching;
     }
 
     if (fetchingList instanceof Array === false) {
       fetchingList = [fetchingList];
     }
 
-    // fetchingList.push(Promise.resolve('finish'));
-
-    let result;
     if (this.props.fetchMode === 'inconsecutive') {
-      result = fetchingList.map(fetching => {
-        return fetching.then(data => {
-          console.log(`${data} is success fetched`);
-          return Promise.resolve(data);
-        }).catch(error => {
-          console.log(`${error} is fail fetched`);
-          return Promise.reject(error);
-        });
-      })
+      fetchingList.map((fetching) => fetching
+        .then((data) => Promise.resolve(data))
+        .catch((error) => Promise.reject(error))
+      );
     } else {
       let processCount = 0;
-      result = fetchingList.reduce((prev, next, index, array) => {
-        console.log(prev, next, index, array);
-        const resultPromise = prev.then(data => {
-          console.log(`${data} is resolved`);
-          processCount++;
+      fetchingList.reduce((prev, next, index, array) => {
+        const resultPromise = prev.then(() => {
+          processCount += 1;
           if (this.props.onProcess) {
             this.props.onProcess(processCount / fetchingList.length);
           }
-          
-          console.log(prev, next, index, array);
+
           return next;
-        }).catch(error => {
-          console.log(`${error} is rejected`);
-          processCount++;
+        }).catch(() => {
+          processCount += 1;
           if (this.props.onProcess) {
             this.props.onProcess(processCount / fetchingList.length);
           }
@@ -107,8 +94,7 @@ class PendingButton extends React.Component {
   }
 
   onFinish = (fetchingList) => {
-    Promise.all(fetchingList).then(data => {
-      console.log('finish - success', data);
+    Promise.all(fetchingList).then((data) => {
       this.setState({
         isPending: false,
         text: this.props.successText
@@ -117,8 +103,7 @@ class PendingButton extends React.Component {
       if (this.props.onSuccess) {
         this.props.onSuccess(data);
       }
-    }).catch(error => {
-      console.log('finish - fail', error);
+    }).catch((error) => {
       this.setState({
         isPending: false,
         text: this.props.failText
@@ -136,7 +121,7 @@ class PendingButton extends React.Component {
         {this.state.text}
         {this.props.children}
       </button>
-    )
+    );
   }
 }
 
@@ -158,12 +143,13 @@ PendingButton.propTypes = {
   onError: PropTypes.func,
   onSuccess: PropTypes.func,
   onFail: PropTypes.func,
-  onProcess: PropTypes.func
-}
+  onProcess: PropTypes.func,
+  onAlreadyClciked: PropTypes.func
+};
 
 PendingButton.defaultProps = {
   fetchMode: 'sequence',
   logging: false
-}
+};
 
 export default PendingButton;

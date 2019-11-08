@@ -6,4 +6,4 @@ export {
   PendingButton,
   TriButton,
   TriCheckBox
-}
+};

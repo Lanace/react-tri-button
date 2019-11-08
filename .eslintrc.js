@@ -12,6 +12,13 @@ module.exports = {
     "commonjs": true,
     "node": true
   },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src", "./src", "./"]
+      }
+    }
+  },
   "extends": "airbnb-base",
   "plugins": [ "import", "html" ],
   "rules": {
@@ -23,6 +30,7 @@ module.exports = {
     "no-underscore-dangle": "warn",
     "no-plusplus": [ "error", { "allowForLoopAfterthoughts": true }],
     "comma-dangle": [ "error", "never"],
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "function-paren-newline": 0
   }
 };

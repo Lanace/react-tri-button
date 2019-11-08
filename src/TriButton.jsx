@@ -1,12 +1,3 @@
-import React from 'react';
-
-class TirButton extends React.Component {
-
-  render() {
-    return (
-      <div>TirButton</div>
-    )
-  }
-}
+const TirButton = () => <div>Tri Button</div>;
 
 export default TirButton;
