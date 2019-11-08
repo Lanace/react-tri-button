@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class LnResizableContainer extends React.Component {
 
@@ -84,15 +85,29 @@ class LnResizableContainer extends React.Component {
       draggable: true,
       onDragEnd: this.onDragEnd,
       onDrag: this.onDrag
-    }
+    };
+
+    const handle = React.cloneElement(this.props.handle, {
+      ...dragProps,
+      style: this.getHandleStyle()
+    });
 
     return (
       <div ref={(resizableRef) => this.resizableRef = resizableRef} style={this.getStyle()}>
         {this.props.children}
-        <button {...dragProps} style={this.getHandleStyle()}></button>
+        {handle}
       </div>
     );
   }
 }
+
+LnResizableContainer.propTypes = {
+  onResize: PropTypes.func,
+  handle: PropTypes.element
+};
+
+LnResizableContainer.defaultProps = {
+  handle: <button></button>
+};
 
 export default LnResizableContainer;
