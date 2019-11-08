@@ -1,4 +1,5 @@
 import React from 'react';
+import { LnResizableContainer } from '../index';
 import './LnFlexPannel.css';
 
 class LnFlexPannel extends React.Component {
@@ -28,17 +29,51 @@ class LnFlexPannel extends React.Component {
     }
   }
 
+  getPannelStyle = () => {
+    const style = {};
+
+    const customStyleList = []
+    customStyleList.map((item) => {
+      if (this.props[item]) {
+        style[item] = this.props[item];
+      }
+    });
+
+    return style;
+  }
+
+  getContentStyle = () => {
+    const style = {
+      overflow: 'scroll'
+    };
+
+    const customStyleList = ['width', 'height']
+    customStyleList.map((item) => {
+      if (this.props[item]) {
+        style[item] = this.props[item];
+      }
+    });
+
+    return style;
+  }
+
   render () {
     const minButton = <button onClick={this.minimize}>{this.state.open ? "-" : "+"}</button>;
     const closeButton = <button onClick={this.close}>x</button>
 
+    const dragProps = {
+      draggable: this.props.draggable,
+      onDragEnd: this.props.onDragEnd,
+      onDragStart: this.props.onDragStart
+    }
+
     return (
-      <div className="pannel ln-flex-pannel">
+      <div className="pannel ln-flex-pannel" {...dragProps} style={this.getPannelStyle()}>
         <div className="header">
           {minButton}
           {closeButton}
         </div>
-        {this.state.open ? <div className="pannel-content">{this.props.children}</div> : ""}
+        {this.state.open ? <LnResizableContainer className="pannel-content" style={this.getContentStyle()}>{this.props.children}</LnResizableContainer> : ""}
       </div>
     )
   }
