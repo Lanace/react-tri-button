@@ -68,7 +68,7 @@ class LnFlexPannel extends React.Component {
     }
 
     return (
-      <div className="pannel ln-flex-pannel" {...dragProps} style={this.getPannelStyle()}>
+      <div className="pannel ln-flex-pannel" ref={this.props.ref} {...dragProps} style={this.getPannelStyle()}>
         <div className="header">
           {minButton}
           {closeButton}

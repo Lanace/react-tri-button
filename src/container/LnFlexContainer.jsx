@@ -6,13 +6,16 @@ class LnFlexContainer extends React.Component {
   constructor(props) {
     super(props);
 
+    this.childRef = []
     this.state = {
       children: React.Children.map(props.children, this.injectChildrenProps)
     }
   }
 
   injectChildrenProps = (child, index) => {
+    this.childRef[index] = React.createRef();
     const cloneElement = React.cloneElement(child, {
+      ref: this.childRef[index],
       index: index,
       close: this.close.bind(this, index),
       order: child.props.order || 0
