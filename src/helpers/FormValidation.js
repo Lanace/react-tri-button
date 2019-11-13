@@ -5,7 +5,10 @@ class FormValidation {
   refList = [];
 
   onSubmit = (onSuccessFunc) => (event) => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
+  
     onSuccessFunc(this.refList.map((refObj) => refObj.options.validate(refObj.ref)));
   };
 

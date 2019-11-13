@@ -14,6 +14,7 @@ export const LnResizableContainerSample = () => {
   const onResize = (width, height) => {
     setWidht(width);
     setHeight(height);
+    console.log(width, height);
   }
 
   return (

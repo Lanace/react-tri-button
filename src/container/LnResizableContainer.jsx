@@ -84,8 +84,6 @@ class LnResizableContainer extends React.Component {
     if (this.contentRef) {
       style.top -= this.handleRef.clientHeight;
       style.left -= this.handleRef.clientWidth;
-
-      console.log(this.state.height, this.contentRef.clientHeight);
     }
 
     return style;

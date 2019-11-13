@@ -19,7 +19,9 @@ class PendingButton extends React.Component {
     }
   }
 
-  handleClicked = () => {
+  handleClicked = (e) => {
+    e.preventDefault();
+
     if (this.state.isPending) {
       if (this.props.onAlreadyClciked) {
         this.props.onAlreadyClciked();
