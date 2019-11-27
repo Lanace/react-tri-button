@@ -9,6 +9,9 @@ import LnResizableContainer from './container/LnResizableContainer';
 // Pannel
 import LnFlexPannel from './pannel/LnFlexPannel';
 
+// Tree
+import { TreeView, TreeItem } from './tree/index';
+
 export {
   PendingButton,
   TriButton,
@@ -16,5 +19,8 @@ export {
 
   LnFlexContainer,
   LnResizableContainer,
-  LnFlexPannel
+  LnFlexPannel,
+
+  TreeView,
+  TreeItem
 };
