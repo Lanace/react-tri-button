@@ -4,6 +4,7 @@ import PendingButtonExample from './PendingButtonExample';
 import TriCheckBoxExample from './TriCheckBoxExample';
 import ValidationFormExample from './ValidationFormExample';
 import TreeViewExample from './TreeViewExample';
+import FlatTreeViewExample from './FlatTreeViewExample';
 
 ReactDOM.render(
   <div>
@@ -18,7 +19,10 @@ ReactDOM.render(
       {/* <ValidationFormExample /> */}
     </section>
     <section>
-      <TreeViewExample />
+      {/* <TreeViewExample /> */}
+    </section>
+    <section>
+      <FlatTreeViewExample />
     </section>
   </div>, 
   document.getElementById('root')
