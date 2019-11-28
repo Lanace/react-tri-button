@@ -4,10 +4,9 @@ import { TreeView, TreeItem } from '../src/index';
 class TreeViewExample extends React.Component {
   
   render () {
-    console.log(TreeItem);
     return (
       <TreeView label="View" logging={true}>
-        <TreeItem label="Item1" logging={false}>
+        <TreeItem label="Item1" logging={false} isOpen={true}>
           Content 1
           <TreeItem label="Item1-1" logging={false}>Content1-1</TreeItem>
           <TreeItem label="Item1-2" logging={false}>Content1-2</TreeItem>

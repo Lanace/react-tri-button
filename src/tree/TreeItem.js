@@ -18,25 +18,25 @@ class TreeItem extends React.Component {
     });
   }
 
-  onDragEnter = (e) => {
-    this.showLog([this.props.label, 'enter'])
+  onDragEnter = (index, e) => {
+    this.showLog([this.props.label, 'enter', index])
   }
 
-  onDragStart = (e) => {
-    this.showLog([this.props.label, 'start'])
+  onDragStart = (index, e) => {
+    this.showLog([this.props.label, 'start', index])
   }
 
-  onDragLeave = (e) => {
-    this.showLog([this.props.label, 'leave'])
+  onDragLeave = (index, e) => {
+    this.showLog([this.props.label, 'leave', index])
   }
 
-  onDrop = (e) => {
-    this.showLog([this.props.label, 'drop'])
+  onDrop = (index, e) => {
+    this.showLog([this.props.label, 'drop', index])
   }
 
-  onDragOver = (e) => {
+  onDragOver = (index, e) => {
     e.preventDefault();
-    this.showLog([this.props.label, 'dragover'])
+    this.showLog([this.props.label, 'dragover', index])
   }
 
   showLog = (message) => {
