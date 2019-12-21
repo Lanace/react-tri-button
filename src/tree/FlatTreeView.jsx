@@ -84,10 +84,8 @@ class FlatTreeView extends React.Component {
       console.log(this.props.label, 'leave', index);
     }
 
-    const isIn = this.state.dragInfo.enterIndex === index ? this.state.dragInfo.isIn : false;
-
     this.setState({
-      dragInfo: Object.assign(this.state.dragInfo, {enterIndex: index, isIn})
+      dragInfo: Object.assign(this.state.dragInfo, {enterIndex: index, isIn: false})
     });
   }
 
@@ -115,9 +113,7 @@ class FlatTreeView extends React.Component {
   }
 
   swapChildren = (a, b, isIn) => {
-    if (a === b) {
-      return;
-    }
+    console.log(a, b, isIn);
 
     const targetA = this.state.flatChildren.filter(child => child.props.id === a)[0];
     const targetB = this.state.flatChildren.filter(child => child.props.id === b)[0];
@@ -135,7 +131,6 @@ class FlatTreeView extends React.Component {
 
   render () {
     const root = this.getChildrenByParentId(0);
-    console.log(root);
     return (
       <ul>
         {root.map(item => {

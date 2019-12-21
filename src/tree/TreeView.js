@@ -38,10 +38,6 @@ class TreeView extends React.Component {
     if (this.props.logging) {
       console.log(this.props.label, 'leave', index);
     }
-
-    if (index === -1) {
-      // TODO:  
-    }
   }
 
   onDrop = (index, e) => {
@@ -72,19 +68,13 @@ class TreeView extends React.Component {
   }
 
   render () {
-    const divStyle = {
-      height: '1px'
-    };
-
     return (
       <div onDragOver={this.onDragOver.bind(this, -1)} onDrop={this.onDrop.bind(this, -1)} onDragLeave={this.onDragLeave.bind(this, -1)}>
         {
           React.Children.map(this.state.children, (child, index) => {
             return (
               <ul key={index} onDragEnter={this.onDragEnter.bind(this, index)} onDragStart={this.onDragStart.bind(this, index)} onDragLeave={this.onDragLeave.bind(this, index)}>
-                {/* <div onDragEnter={this.onDragEnter} onDragStart={this.onDragStart} onDragLeave={this.onDragLeave} style={divStyle}/> */}
                 {child}
-                {/* <div onDragEnter={this.onDragEnter} onDragStart={this.onDragStart} onDragLeave={this.onDragLeave} style={divStyle}/> */}
               </ul>
             )
           })

@@ -8,7 +8,9 @@ class FlatTreeViewExample extends React.Component {
       <FlatTreeView label="View" logging={true}>
         <FlatTreeItem label="Item1" logging={false} isOpen={true}>
           <FlatTreeItem label="Item1-1" logging={false}>
-            <FlatTreeItem label="Item1-2" logging={false}>Content1-2</FlatTreeItem>
+            <FlatTreeItem label="Item1-2" logging={false}>
+                Content1-2
+            </FlatTreeItem>
             <FlatTreeItem label="Item1-3" logging={false}>Content1-3</FlatTreeItem>
           </FlatTreeItem>
           

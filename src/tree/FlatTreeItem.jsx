@@ -1,5 +1,6 @@
 import React from 'react';
 import isMuiElement from '../utiles';
+import {Icon} from '@material-ui/core';
 
 class FlatTreeItem extends React.Component {
 
@@ -24,8 +25,14 @@ class FlatTreeItem extends React.Component {
     if (this.props.node) {
       childrenNodeList = <ul>{
         this.props.node.map(node => {
-          console.log(node.items, node.props.items);
           return React.cloneElement(node, {node: node.items, key: node.props.id});
+        }).sort((a, b ) => {
+          if (a.props.order < b.props.order) {
+
+          } else {
+            
+          }
+          return 
         })
         }</ul>
     }
@@ -33,7 +40,7 @@ class FlatTreeItem extends React.Component {
     return (
       <li>
         <div draggable={this.props.draggable} onDragEnter={this.props.onDragEnter} onDragStart={this.props.onDragStart} onDragEnd={this.props.onDragEnd} onDragLeave={this.props.onDragLeave} onDrop={this.props.onDrop} onDragOver={this.props.onDragOver}>
-          <button onClick={this.onOpen}>{this.state.isOpen ? '닫기' : '열기'}</button>
+        <Icon onClick={this.onOpen}>{this.state.isOpen ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</Icon>
           <span>{this.props.label} / {this.state.isOpen}</span>
         </div>
         {

@@ -6,6 +6,8 @@ import ValidationFormExample from './ValidationFormExample';
 import TreeViewExample from './TreeViewExample';
 import FlatTreeViewExample from './FlatTreeViewExample';
 
+import './index.css';
+
 ReactDOM.render(
   <div>
     <section>
@@ -19,10 +21,10 @@ ReactDOM.render(
       {/* <ValidationFormExample /> */}
     </section>
     <section>
-      {/* <TreeViewExample /> */}
+      <TreeViewExample />
     </section>
     <section>
-      <FlatTreeViewExample />
+      {/* <FlatTreeViewExample /> */}
     </section>
   </div>, 
   document.getElementById('root')
